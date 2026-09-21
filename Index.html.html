@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Daily Finds &mdash; Deals worth a second look</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;700;900&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2E8D2;
+    --card:#FBF6E9;
+    --ink:#2B2116;
+    --ink-soft:#5B4D3D;
+    --mustard:#D9A421;
+    --coral:#DD5A3C;
+    --sage:#6E7F52;
+    --line:#C9B892;
+    --radius:2px;
+  }
+  :root:not([data-theme="light"]){
+    /* placeholder for future dark mode hook, currently unused */
+  }
+  *{box-sizing:border-box;}
+  html{scroll-padding-top:env(safe-area-inset-top,0px);}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans',system-ui,sans-serif;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(43,33,22,0.06) 1px, transparent 0);
+    background-size:22px 22px;
+  }
+  a{color:inherit;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+
+  header.site{
+    border-bottom:3px solid var(--ink);
+    padding:28px 0 22px;
+  }
+  header.site .wrap{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .wordmark{
+    font-family:'League Spartan',sans-serif;
+    font-weight:900;
+    font-size:clamp(28px,4vw,40px);
+    letter-spacing:-0.01em;
+    line-height:1;
+  }
+  .wordmark span{color:var(--coral);}
+  .tagline{
+    font-size:14px;
+    color:var(--ink-soft);
+    max-width:260px;
+    text-align:right;
+    line-height:1.4;
+  }
+
+  .hero{padding:56px 0 40px;border-bottom:1px dashed var(--line);}
+  .hero h1{
+    font-family:'League Spartan',sans-serif;
+    font-weight:900;
+    font-size:clamp(38px,7vw,74px);
+    line-height:0.94;
+    margin:0 0 18px;
+    max-width:14ch;
+  }
+  .hero p{
+    font-size:18px;
+    color:var(--ink-soft);
+    max-width:52ch;
+    line-height:1.55;
+    margin:0;
+  }
+  .hero .stamp{
+    display:inline-block;
+    margin-top:22px;
+    border:2px solid var(--sage);
+    color:var(--sage);
+    font-family:'League Spartan',sans-serif;
+    font-weight:700;
+    font-size:13px;
+    padding:6px 14px;
+    transform:rotate(-2deg);
+    border-radius:var(--radius);
+  }
+
+  nav.categories{
+    position:sticky;
+    top:env(safe-area-inset-top,0px);
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+    z-index:5;
+  }
+  nav.categories .wrap{
+    display:flex;
+    gap:4px;
+    overflow-x:auto;
+    padding-top:14px;
+    padding-bottom:14px;
+    -ms-overflow-style:none;
+    scrollbar-width:none;
+  }
+  nav.categories .wrap::-webkit-scrollbar{display:none;}
+  .cat-btn{
+    font-family:'Work Sans',sans-serif;
+    font-weight:600;
+    font-size:14px;
+    background:transparent;
+    border:1px solid var(--ink);
+    color:var(--ink);
+    padding:8px 16px;
+    border-radius:999px;
+    cursor:pointer;
+    white-space:nowrap;
+    flex:0 0 auto;
+  }
+  .cat-btn[aria-pressed="true"]{
+    background:var(--ink);
+    color:var(--paper);
+  }
+
+  main{padding:44px 0 20px;}
+  .section-head{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    margin-bottom:20px;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .section-head h2{
+    font-family:'League Spartan',sans-serif;
+    font-size:22px;
+    margin:0;
+  }
+  .count{font-size:13px;color:var(--ink-soft);}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+    gap:18px;
+    margin-bottom:52px;
+  }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--ink);
+    border-radius:var(--radius);
+    padding:16px 16px 18px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    position:relative;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .card:hover{
+    transform:translateY(-3px);
+    box-shadow:4px 5px 0 var(--ink);
+  }
+  .card .punch{
+    position:absolute;
+    top:-7px;left:16px;
+    width:13px;height:13px;
+    background:var(--paper);
+    border:1px solid var(--ink);
+    border-radius:50%;
+  }
+  .badge-row{display:flex;justify-content:space-between;align-items:center;}
+  .badge{
+    font-family:'League Spartan',sans-serif;
+    font-weight:700;
+    font-size:12px;
+    color:#fff;
+    background:var(--coral);
+    padding:3px 9px;
+    border-radius:999px;
+  }
+  .cat-tag{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    color:var(--ink-soft);
+  }
+  .card h3{
+    font-family:'League Spartan',sans-serif;
+    font-size:18px;
+    font-weight:700;
+    margin:0;
+    line-height:1.25;
+  }
+  .card .note{
+    font-size:13.5px;
+    color:var(--ink-soft);
+    line-height:1.45;
+    flex-grow:1;
+  }
+  .price-row{
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+  }
+  .price-now{font-family:'League Spartan',sans-serif;font-weight:900;font-size:20px;}
+  .price-was{font-size:13px;color:var(--ink-soft);text-decoration:line-through;}
+  .cta{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    margin-top:4px;
+    background:var(--ink);
+    color:var(--paper);
+    text-decoration:none;
+    font-family:'Work Sans',sans-serif;
+    font-weight:600;
+    font-size:14px;
+    padding:10px 14px;
+    border-radius:var(--radius);
+  }
+  .cta:hover{background:var(--sage);}
+
+  footer{
+    border-top:3px solid var(--ink);
+    padding:34px 0 60px;
+    margin-top:20px;
+  }
+  footer .foot-grid{
+    display:flex;
+    gap:32px;
+    flex-wrap:wrap;
+    justify-content:space-between;
+  }
+  footer h4{
+    font-family:'League Spartan',sans-serif;
+    font-size:15px;
+    margin:0 0 8px;
+  }
+  footer p, footer li{
+    font-size:13.5px;
+    color:var(--ink-soft);
+    line-height:1.6;
+  }
+  footer ul{margin:0;padding-left:18px;}
+  .disclosure{
+    max-width:640px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    border-top:1px dashed var(--line);
+    margin-top:26px;
+    padding-top:16px;
+    line-height:1.6;
+  }
+
+  @media (max-width:560px){
+    .tagline{display:none;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .card{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <div class="wordmark">DAILY<span>FINDS</span></div>
+    <div class="tagline">A running list of Amazon picks worth pointing out &mdash; updated by hand, not by algorithm.</div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1>Deals we'd actually tell a friend about.</h1>
+    <p>No spam, no ten-item "top 10" filler. Just things spotted on Amazon that are genuinely worth the price right now, sorted by category so you can skip straight to what you need.</p>
+    <span class="stamp">Updated regularly</span>
+  </div>
+</section>
+
+<nav class="categories" aria-label="Filter by category">
+  <div class="wrap" id="catBar"></div>
+</nav>
+
+<main class="wrap">
+  <div class="section-head">
+    <h2 id="sectionTitle">All finds</h2>
+    <span class="count" id="sectionCount"></span>
+  </div>
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h4>About this page</h4>
+        <p style="max-width:34ch">Built as a simple, hand-editable list of finds. Swap in your own picks any time by editing the list at the top of the code.</p>
+      </div>
+      <div>
+        <h4>Before it earns anything</h4>
+        <ul>
+          <li>Join Amazon Associates (free)</li>
+          <li>Get your tracking ID</li>
+          <li>Drop it into the AMAZON_TAG line</li>
+        </ul>
+      </div>
+    </div>
+    <p class="disclosure">As an Amazon Associate, this site may earn from qualifying purchases. Prices and availability shown here are examples and are not pulled live from Amazon &mdash; check the current price on the product page before buying.</p>
+  </div>
+</footer>
+
+<script>
+/* =====================================================================
+   EDIT ME
+   ---------------------------------------------------------------------
+   1) Put your Amazon Associates tracking ID here once you have one.
+      Example: "yourtag-20"
+      Leave it as "" and links will just go to a plain Amazon search
+      (no commission) until you fill this in.
+   2) Add / edit / remove items in the FINDS array below. Each item is
+      just an object - copy an existing one and change the fields.
+      "query" is what gets searched on Amazon if you don't have a
+      direct product link yet; "url" (optional) overrides it with a
+      specific product page.
+===================================================================== */
+const AMAZON_TAG = ""; // <-- put your Associates tag here, e.g. "yourtag-20"
+
+const FINDS = [
+  { category:"Home",     title:"Weighted blanket, 15 lb",         note:"Cooling cover, glass beads, machine washable.", price:"$39.99", was:"$59.99", discount:"33% off", query:"weighted blanket 15 lb cooling" },
+  { category:"Home",     title:"Robot vacuum with app control",   note:"Mapping, scheduling, self-charging.",           price:"$149.00", was:"$219.00", discount:"32% off", query:"robot vacuum app control mapping" },
+  { category:"Kitchen",  title:"6-quart air fryer",                note:"Basket style, dishwasher-safe parts.",          price:"$54.99", was:"$79.99", discount:"31% off", query:"6 quart air fryer basket" },
+  { category:"Kitchen",  title:"Stainless steel french press",     note:"Insulated, keeps coffee hot for hours.",        price:"$27.99", was:"$36.00", discount:"22% off", query:"stainless steel insulated french press" },
+  { category:"Tech",     title:"Fast-charging USB-C cable, 3-pack",note:"Braided nylon, 6 ft, 60W.",                     price:"$8.99",  was:"$14.99", discount:"40% off", query:"usb c cable 6ft braided 3 pack 60w" },
+  { category:"Tech",     title:"Wireless earbuds, noise isolating",note:"20 hr case battery, IPX5.",                     price:"$34.99", was:"$49.99", discount:"30% off", query:"wireless earbuds noise isolating ipx5" },
+  { category:"Outdoors", title:"Insulated 32 oz water bottle",     note:"Keeps cold 24 hr, wide mouth.",                 price:"$16.99", was:"$24.99", discount:"32% off", query:"insulated 32 oz water bottle wide mouth" },
+  { category:"Outdoors", title:"Packable rain jacket",             note:"Lightweight, folds into its own pocket.",       price:"$29.99", was:"$44.99", discount:"33% off", query:"packable rain jacket lightweight" },
+  { category:"Office",   title:"Adjustable laptop stand",          note:"Aluminum, folds flat for travel.",              price:"$21.99", was:"$32.99", discount:"33% off", query:"adjustable aluminum laptop stand foldable" },
+];
+
+function amazonLink(item){
+  if(item.url) return item.url;
+  const base = "https://www.amazon.com/s?k=" + encodeURIComponent(item.query);
+  return AMAZON_TAG ? base + "&tag=" + encodeURIComponent(AMAZON_TAG) : base;
+}
+
+const categories = ["All", ...Array.from(new Set(FINDS.map(f=>f.category)))];
+let active = "All";
+
+const catBar = document.getElementById("catBar");
+const grid = document.getElementById("grid");
+const sectionTitle = document.getElementById("sectionTitle");
+const sectionCount = document.getElementById("sectionCount");
+
+function renderCats(){
+  catBar.innerHTML = "";
+  categories.forEach(cat=>{
+    const btn = document.createElement("button");
+    btn.className = "cat-btn";
+    btn.textContent = cat;
+    btn.setAttribute("aria-pressed", cat===active ? "true":"false");
+    btn.addEventListener("click", ()=>{ active = cat; renderCats(); renderGrid(); });
+    catBar.appendChild(btn);
+  });
+}
+
+function renderGrid(){
+  const items = active==="All" ? FINDS : FINDS.filter(f=>f.category===active);
+  sectionTitle.textContent = active==="All" ? "All finds" : active;
+  sectionCount.textContent = items.length + (items.length===1 ? " item":" items");
+  grid.innerHTML = "";
+  items.forEach(item=>{
+    const card = document.createElement("article");
+    card.className = "card";
+    card.innerHTML = `
+      <span class="punch" aria-hidden="true"></span>
+      <div class="badge-row">
+        <span class="cat-tag">${item.category}</span>
+        <span class="badge">${item.discount}</span>
+      </div>
+      <h3>${item.title}</h3>
+      <p class="note">${item.note}</p>
+      <div class="price-row">
+        <span class="price-now">${item.price}</span>
+        <span class="price-was">${item.was}</span>
+      </div>
+      <a class="cta" href="${amazonLink(item)}" target="_blank" rel="nofollow sponsored noopener">See on Amazon &rarr;</a>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+renderCats();
+renderGrid();
+</script>
+
+</body>
+</html>
